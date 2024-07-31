@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bot Protection</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22256%22 height=%22256%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23000000%22></rect><path fill=%22%23fff%22 d=%22M30 40L50 60L70 40%22></path></svg>"
+    />
+    <style>
+      @font-face {
+        font-family: "HarryP";
+        src: url("https://db.onlinewebfonts.com/t/0421d4186d6efbfc5331fe180895e780.woff2")
+          format("woff2");
+        font-weight: normal;
+        font-style: normal;
+      }
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        font-family: "HarryP", Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        text-align: center;
+      }
+      .message {
+        font-size: 200%;
+        max-width: 100%;
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+      input {
+        padding: 10px;
+        font-size: 16px;
+        width: 200px;
+        max-width: 80%;
+        border: none;
+        outline: none;
+        background: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="message">
+      Si vous devez demander, jamais vous ne saurez.<br />
+      Si vous savez, il suffit de demander.
+    </div>
+    <input type="text" id="secret" />
+
+    <script>
+      document.getElementById("secret").addEventListener("input", function () {
+        if (this.value === "VAULT") {
+          window.location.href = "https://shdw.xyz/service";
+        }
+      });
+    </script>
+  </body>
+</html>
