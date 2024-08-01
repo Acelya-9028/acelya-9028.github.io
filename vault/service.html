@@ -69,18 +69,19 @@
         padding: 5px;
         font-size: 16px;
         width: 200px;
+        box-sizing: border-box;
       }
-      input,
-      #imageDisplay {
-        display: none;
-        margin-top: 10px;
+      .inputs {
+        margin-top: 20px;
       }
       #imageDisplay {
+        margin-top: 30px;
+        display: flex;
         justify-content: center;
         align-items: center;
       }
       img {
-        max-width: 60%;
+        max-width: 100%;
         /* max-height: 200px; */
       }
     </style>
@@ -94,85 +95,103 @@
         schémas techniques pour faciliter d'éventuelles interventions de
         maintenance.
       </p>
-      <label class="strong" for="vaultParts">Sélectionner une pièce :</label>
-      <select id="vaultParts">
-        <option value=""></option>
-        <option value="key">Key</option>
-        <option value="lock">Lock</option>
-        <option value="door">Door</option>
-      </select>
-      <input type="text" id="keyInput" />
+      <div class="inputs">
+        <label class="strong" for="vaultParts">Sélectionner une pièce :</label>
+        <select id="vaultParts">
+          <option value=""></option>
+          <option value="box">Caisson blindé</option>
+          <option value="hinge">Charnière</option>
+          <option value="key">Clé</option>
+          <option value="gears_kit">Kit d'engrenages</option>
+          <option value="locks_kit">Kit de tiges</option>
+          <option value="door_caps">Porte - Capuchons</option>
+          <option value="door_enclosure">Porte - Encadrement</option>
+          <option value="door_ellipse">Porte - Ellipse</option>
+          <option value="door_frame">Porte - Face arrière</option>
+          <option value="door_top">Porte - Face avant</option>
+          <option value="lock_external">Serrure - Coque</option>
+          <option value="lock_top">Serrure - Top</option>
+        </select>
+        <input type="text" id="keyInput" />
+      </div>
       <div id="imageDisplay">
-        <img
-          id="partImage"
-          src=""
-          alt="Vault part"
-          onclick="openImageInNewTab()"
-        />
+        <img id="partImage" src="" alt="Vault part" lazy />
       </div>
 
       <script>
         document.addEventListener("DOMContentLoaded", function () {
           const select = document.getElementById("vaultParts");
-          const keyInput = document.getElementById("keyInput");
-          const imageDisplay = document.getElementById("imageDisplay");
-          const partImage = document.getElementById("partImage");
+          const input = document.getElementById("keyInput");
+          const display = document.getElementById("imageDisplay");
+          const image = document.getElementById("partImage");
 
-          const encryptedValue = "NTc2MjE1"; // 576215
-          const encryptedPart = "cGFydHMva2V5X2RyYXdpbmcucG5n";
+          const encryptedKey = "NTc2MjE1"; // 576215
+          const encryptedKeyPath = "cGFydHMva2V5X2RyYXdpbmcucG5n";
 
-          let decrypted = false;
+          const encryptedBox = "NTc2MjE1"; // 576215
+          const encryptedBoxPath = "cGFydHMvYm94X3JlbmRlci5wbmc";
 
           function handleSelection() {
             const selectedValue = select.value;
 
             if (selectedValue) {
-              keyInput.style.display = "none";
-              imageDisplay.style.display = "flex";
-              setDefaultImage(selectedValue);
+              if (input.style.display === "none") {
+                input.style.display = "inline-block";
+                display.style.display = "flex";
+              }
+              decrypt(input);
             } else {
-              keyInput.style.display = "none";
-              imageDisplay.style.display = "none";
+              input.style.display = "none";
+              display.style.display = "none";
+            }
+          }
+
+          function decrypt(input) {
+            const selectedValue = select.value;
+            const decryptedKey = atob(encryptedKey);
+
+            let decryptedPath, altText;
+
+            switch (selectedValue) {
+              case "key":
+                decryptedPath = atob(encryptedKeyPath);
+                altText = "Schéma de la clé";
+                break;
+              case "box":
+                decryptedPath = atob(encryptedBoxPath);
+                altText = "Schéma de la boite blindée";
+                break;
+              default:
+                // Get the label of the selected option
+                const selectedLabel = select.selectedOptions[0].textContent;
+                decryptedPath = `parts/${selectedValue}.png`;
+                altText = `Modèle 3D de la pièce : ${selectedLabel}`;
+                break;
             }
 
-            if (selectedValue === "key") {
-              keyInput.style.display = "inline-block";
-              decryptImage(keyInput);
+            if (input.value === decryptedKey) {
+              image.src = decryptedPath;
+              image.alt = altText;
+            } else {
+              // Get the label of the selected option
+              const selectedLabel = select.selectedOptions[0].textContent;
+              image.src = `parts/${selectedValue}.png`;
+              image.alt = `Modèle 3D de la pièce : ${selectedLabel}`;
             }
           }
 
           function openImageInNewTab() {
-            const imageUrl = partImage.src;
+            const imageUrl = image.src;
             window.open(imageUrl, "_blank");
           }
 
-          function setDefaultImage(value) {
-            partImage.src = `parts/${value}.png`;
-            partImage.alt = `Dessin de la pièce : ${capitalize(value)}`;
-          }
-
-          function decryptImage(input) {
-            if (input.value === atob(encryptedValue)) {
-              imageDisplay.style.display = "flex";
-              partImage.src = atob(encryptedPart);
-              partImage.alt = "Schéma de la clé";
-              decrypted = true;
-            } else {
-              const selectedValue = select.value;
-              if (decrypted) {
-                setDefaultImage(selectedValue);
-                decrypted = false;
-              }
-            }
-          }
-
-          function capitalize(str) {
-            return str.charAt(0).toUpperCase() + str.slice(1);
-          }
-
           select.addEventListener("change", handleSelection);
-          keyInput.addEventListener("input", function () {
-            decryptImage(this);
+
+          input.addEventListener("input", function () {
+            decrypt(this);
+          });
+          display.addEventListener("click", function () {
+            openImageInNewTab();
           });
 
           handleSelection();
