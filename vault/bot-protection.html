@@ -67,7 +67,7 @@
       <span>Si vous savez,</span> <span>il suffit de demander</span>.
     </blockquote>
     <input type="text" id="secret" />
-    <div id="pidgey" class="pidgey">
+    <div id="pidgeyImage" class="pidgey">
       <img src="pidgey.gif" alt="Pidgey GIF" width="100" height="100" />
     </div>
 
@@ -85,8 +85,8 @@
       });
 
       if (window.location.hash === "#arnaque") {
-        const pidgey = document.getElementById("pidgey");
-        pidgey.style.display = "block";
+        const pidgey = document.getElementById("pidgeyImage");
+        pidgey.style.display = "inline";
 
         randomDirection = () => (Math.random() < 0.5 ? -1 : 1); // 1 for right, -1 for left
         setXY = (x, y) => {

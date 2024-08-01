@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="../ressources/icon.svg"
+      rel="icon"
+      sizes="any"
+      type="image/svg+xml"
+    />
+    <title>VAULT Service</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #ffffff;
+        margin: 0;
+        padding: 0;
+        color: #333333;
+      }
+      .container {
+        width: 90%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1,
+      h2 {
+        color: #1a1a1a;
+        text-align: center;
+      }
+      p,
+      li {
+        line-height: 1.6;
+      }
+      footer {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 0.8em;
+        color: #777777;
+      }
+      footer a {
+        color: #007bff;
+        text-decoration: none;
+      }
+      .cta {
+        text-align: center;
+        /* margin-top: 20px; */
+      }
+      .cta a {
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      .cta a:hover {
+        background-color: #0056b3;
+      }
+
+      .strong {
+        font-weight: bold;
+      }
+
+      select,
+      input {
+        margin: 10px 0;
+        padding: 5px;
+        font-size: 16px;
+        width: 200px;
+      }
+      input,
+      #imageDisplay {
+        display: none;
+        margin-top: 10px;
+      }
+      #imageDisplay {
+        justify-content: center;
+        align-items: center;
+      }
+      img {
+        max-width: 60%;
+        /* max-height: 200px; */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>VAULT Service</h1>
+      <p>
+        Cette page regroupe l'ensemble des données concernant les éléments
+        constitutifs du <strong>Coffre Inviolable</strong>, accompagnées de
+        schémas techniques pour faciliter d'éventuelles interventions de
+        maintenance.
+      </p>
+      <label class="strong" for="vaultParts">Sélectionner une pièce :</label>
+      <select id="vaultParts">
+        <option value=""></option>
+        <option value="key">Key</option>
+        <option value="lock">Lock</option>
+        <option value="door">Door</option>
+      </select>
+      <input type="text" id="keyInput" />
+      <div id="imageDisplay">
+        <img
+          id="partImage"
+          src=""
+          alt="Vault part"
+          onclick="openImageInNewTab()"
+        />
+      </div>
+
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const select = document.getElementById("vaultParts");
+          const keyInput = document.getElementById("keyInput");
+          const imageDisplay = document.getElementById("imageDisplay");
+          const partImage = document.getElementById("partImage");
+
+          const encryptedValue = "NTc2MjE1"; // 576215
+          const encryptedPart = "cGFydHMva2V5X2RyYXdpbmcucG5n";
+
+          let decrypted = false;
+
+          function handleSelection() {
+            const selectedValue = select.value;
+
+            if (selectedValue) {
+              keyInput.style.display = "none";
+              imageDisplay.style.display = "flex";
+              setDefaultImage(selectedValue);
+            } else {
+              keyInput.style.display = "none";
+              imageDisplay.style.display = "none";
+            }
+
+            if (selectedValue === "key") {
+              keyInput.style.display = "inline-block";
+              decryptImage(keyInput);
+            }
+          }
+
+          function openImageInNewTab() {
+            const imageUrl = partImage.src;
+            window.open(imageUrl, "_blank");
+          }
+
+          function setDefaultImage(value) {
+            partImage.src = `parts/${value}.png`;
+            partImage.alt = `Dessin de la pièce : ${capitalize(value)}`;
+          }
+
+          function decryptImage(input) {
+            if (input.value === atob(encryptedValue)) {
+              imageDisplay.style.display = "flex";
+              partImage.src = atob(encryptedPart);
+              partImage.alt = "Schéma de la clé";
+              decrypted = true;
+            } else {
+              const selectedValue = select.value;
+              if (decrypted) {
+                setDefaultImage(selectedValue);
+                decrypted = false;
+              }
+            }
+          }
+
+          function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+          }
+
+          select.addEventListener("change", handleSelection);
+          keyInput.addEventListener("input", function () {
+            decryptImage(this);
+          });
+
+          handleSelection();
+        });
+      </script>
+      <footer>
+        <p>2024 VAULT COMPANY. Tous droits réservés.</p>
+        <p>
+          <a href="../ressources/404.html">Politique de confidentialité</a> |
+          <a href="../ressources/404.html">Conditions d'utilisation</a>
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
