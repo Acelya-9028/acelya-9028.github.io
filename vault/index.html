@@ -3,148 +3,149 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bot Protection</title>
-    <link href="icon.svg" rel="icon" sizes="any" type="image/svg+xml" />
+    <link
+      href="../ressources/icon.svg"
+      rel="icon"
+      sizes="any"
+      type="image/svg+xml"
+    />
+    <title>VAULT</title>
     <style>
-      @font-face {
-        font-family: "HarryP";
-        src: url("HarryP.woff2") format("woff2");
-        font-weight: normal;
-        font-style: normal;
-      }
-      body,
-      html {
-        height: 100%;
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #ffffff;
         margin: 0;
-        font-family: "HarryP", Arial, sans-serif;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: white;
+        padding: 0;
+        color: #333333;
+      }
+      .container {
+        width: 90%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1,
+      h2 {
+        color: #1a1a1a;
         text-align: center;
       }
-      blockquote {
-        font-size: 24px;
-        max-width: 100%;
+      p,
+      li {
         line-height: 1.6;
-        margin-bottom: 20px;
-        margin: 0 25px;
-        word-wrap: break-word;
       }
-      input {
-        padding: 10px;
-        font-size: 16px;
-        width: 200px;
-        max-width: 80%;
-        border: none;
-        outline: none;
-        background: transparent;
-        font-family: "HarryP", Arial, sans-serif;
+
+      footer {
         text-align: center;
+        margin-top: 40px;
+        font-size: 0.8em;
+        color: #777777;
       }
-      span {
-        white-space: nowrap;
+      footer a {
+        color: #007bff;
+        text-decoration: none;
       }
-      #pidgey {
-        position: absolute;
-        width: 100px;
-        height: 100px;
-        transition: transform 0.5s;
-        display: none;
+      .cta {
+        text-align: center;
+        /* margin-top: 20px; */
+      }
+      .cta a {
+        display: inline-block;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      .cta a:hover {
+        background-color: #0056b3;
+      }
+      .about-section {
+        text-align: center;
+        margin: 20px 0;
+      }
+      .cta.disabled a {
+        background-color: gray;
+        pointer-events: none;
+        text-decoration: none;
       }
     </style>
   </head>
   <body>
-    <blockquote>
-      <span>Si vous devez demander,</span> <span>jamais vous ne saurez.</span
-      ><br />
-      <span>Si vous savez,</span> <span>il suffit de demander</span>.
-    </blockquote>
-    <input type="text" id="secret" />
-    <div id="pidgey">
-      <img src="pidgey.gif" alt="Pidgey GIF" width="100" height="100" />
+    <div class="container">
+      <h1>VAULT</h1>
+      <div class="about-section">
+        <img
+          src="vault.png"
+          alt="The VAULT"
+          style="width: 300px"
+          loading="lazy"
+        />
+      </div>
+      <h2>Détails du Coffre Inviolable</h2>
+      <p>
+        Le <strong>Coffre Inviolable</strong> de
+        <strong>VAULT COMPANY</strong> est conçu pour offrir une sécurité
+        maximale et une personnalisation complète. Voici les détails de notre
+        produit révolutionnaire :
+      </p>
+      <h3>Caractéristiques techniques :</h3>
+      <ul>
+        <li>Construction en acier renforcé pour une durabilité maximale</li>
+        <li>
+          Système de verrouillage biométrique avec reconnaissance faciale et
+          empreinte digitale
+        </li>
+        <li>
+          Intérieur modulable avec compartiments ajustables pour une
+          organisation optimale
+        </li>
+        <li>
+          Résistance au feu et à l'eau pour une protection complète de vos biens
+        </li>
+        <li>
+          Connectivité intelligente avec application mobile pour un contrôle à
+          distance
+        </li>
+      </ul>
+      <h3>Options de personnalisation :</h3>
+      <p>
+        Rendez votre <strong>Coffre Inviolable</strong> unique grâce à nos
+        options de personnalisation :
+      </p>
+      <ul>
+        <li>Choix de couleurs pour l'extérieur et l'intérieur</li>
+        <li>Gravure personnalisée avec le motif de votre choix</li>
+        <li>
+          Sélection de matériaux pour les finitions intérieures (cuir, velours,
+          etc.)
+        </li>
+      </ul>
+      <h3>Garantie et support :</h3>
+      <p>
+        Nous offrons une garantie de 10 ans sur tous nos coffres ainsi qu'un
+        support client 24/7 pour répondre à toutes vos questions et besoins.
+      </p>
+      <div class="cta disabled" onclick="return false;">
+        <a href="../ressources/404.html">Commander maintenant</a>
+      </div>
+      <p style="color: red; font-weight: bold; text-align: center">
+        Actuellement en rupture de stock.
+      </p>
+      <p>
+        Si votre coffre rencontre un problème et ne fonctionne pas correctement,
+        veuillez accéder à notre page de service pour obtenir de l'aide et des
+        instructions sur la marche à suivre.
+      </p>
+      <div class="cta">
+        <a href="../vault-company/service.html">Service</a>
+      </div>
     </div>
-
-    <script>
-      function decrypt(value) {
-        return atob(value);
-      }
-
-      const encryptedValue = "VkFVTFR";
-
-      document.getElementById("secret").addEventListener("input", function () {
-        if (this.value === decrypt(encryptedValue)) {
-          window.location.href = "https://shdw.xyz/service";
-        }
-      });
-
-      if (window.location.hash === "#arnaque") {
-        const pidgey = document.getElementById("pidgey");
-        pidgey.style.display = "block";
-
-        randomDirection = () => (Math.random() < 0.5 ? -1 : 1); // 1 for right, -1 for left
-        setXY = (x, y) => {
-          pidgey.style.left = x + "px";
-          pidgey.style.top = y + "px";
-        };
-
-        let startTime = Date.now();
-        let height = pidgey.offsetHeight;
-        let width = pidgey.offsetWidth;
-        let x = window.innerWidth / 2 - height / 2;
-        let y = window.innerHeight / 2 - width / 2;
-        let angle = 0;
-        let angleSpeed = 0.03;
-        let xSpeed = 2;
-        let direction = randomDirection();
-        let exiting = false;
-
-        setXY(x, y);
-        pidgey.style.transform = `scaleX(${direction})`;
-
-        function smoothFlight() {
-          const currentTime = Date.now();
-          const elapsedTime = currentTime - startTime;
-
-          // Smooth wave-like motion with some randomness
-          x += xSpeed * direction;
-          angle += angleSpeed;
-
-          // Add some randomness to the vertical movement
-          const randomFactor = Math.sin(elapsedTime * 0.01) * 20;
-          y = window.innerHeight / 2 + Math.sin(angle) * 100 + randomFactor;
-
-          // Ensure the pidgey stays within the screen
-          if (elapsedTime < 5000) {
-            if (x <= 0 || x >= window.innerWidth - 100) {
-              direction *= -1; // Change direction
-              pidgey.style.transform = `scaleX(${direction})`;
-
-              x = Math.max(0, Math.min(x, window.innerWidth - 100));
-              y = Math.max(0, Math.min(y, window.innerHeight - 100));
-            }
-          }
-
-          // Start exiting after 5 seconds
-          if (elapsedTime >= 5000 && !exiting) {
-            exiting = true;
-            direction = randomDirection();
-            pidgey.style.transform = `scaleX(${direction})`;
-            xSpeed = 5; // Increase speed for exit
-          }
-
-          setXY(x, y);
-
-          if (x > 0 - width && x < window.innerWidth + width) {
-            requestAnimationFrame(smoothFlight);
-          } else {
-            pidgey.style.display = "none";
-          }
-        }
-
-        smoothFlight();
-      }
-    </script>
+    <footer>
+      <p>2024 VAULT COMPANY. Tous droits réservés.</p>
+      <p>
+        <a href="../ressources/404.html">Politique de confidentialité</a> |
+        <a href="../ressources/404.html">Conditions d'utilisation</a>
+      </p>
+    </footer>
   </body>
 </html>
