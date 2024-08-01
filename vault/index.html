@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bot Protection</title>
+    <link href="icon.svg" rel="icon" sizes="any" type="image/svg+xml" />
+    <style>
+      @font-face {
+        font-family: "HarryP";
+        src: url("HarryP.woff2") format("woff2");
+        font-weight: normal;
+        font-style: normal;
+      }
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        font-family: "HarryP", Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        text-align: center;
+      }
+      blockquote {
+        font-size: 24px;
+        max-width: 100%;
+        line-height: 1.6;
+        margin-bottom: 20px;
+        margin: 0 25px;
+        word-wrap: break-word;
+      }
+      input {
+        padding: 10px;
+        font-size: 16px;
+        width: 200px;
+        max-width: 80%;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-family: "HarryP", Arial, sans-serif;
+        text-align: center;
+      }
+      span {
+        white-space: nowrap;
+      }
+      #pidgey {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        transition: transform 0.5s;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <blockquote>
+      <span>Si vous devez demander,</span> <span>jamais vous ne saurez.</span
+      ><br />
+      <span>Si vous savez,</span> <span>il suffit de demander</span>.
+    </blockquote>
+    <input type="text" id="secret" />
+    <div id="pidgey">
+      <img src="pidgey.gif" alt="Pidgey GIF" width="100" height="100" />
+    </div>
+
+    <script>
+      function decrypt(value) {
+        return atob(value);
+      }
+
+      const encryptedValue = "VkFVTFR";
+
+      document.getElementById("secret").addEventListener("input", function () {
+        if (this.value === decrypt(encryptedValue)) {
+          window.location.href = "https://shdw.xyz/service";
+        }
+      });
+
+      if (window.location.hash === "#arnaque") {
+        const pidgey = document.getElementById("pidgey");
+        pidgey.style.display = "block";
+
+        randomDirection = () => (Math.random() < 0.5 ? -1 : 1); // 1 for right, -1 for left
+        setXY = (x, y) => {
+          pidgey.style.left = x + "px";
+          pidgey.style.top = y + "px";
+        };
+
+        let startTime = Date.now();
+        let height = pidgey.offsetHeight;
+        let width = pidgey.offsetWidth;
+        let x = window.innerWidth / 2 - height / 2;
+        let y = window.innerHeight / 2 - width / 2;
+        let angle = 0;
+        let angleSpeed = 0.03;
+        let xSpeed = 2;
+        let direction = randomDirection();
+        let exiting = false;
+
+        setXY(x, y);
+        pidgey.style.transform = `scaleX(${direction})`;
+
+        function smoothFlight() {
+          const currentTime = Date.now();
+          const elapsedTime = currentTime - startTime;
+
+          // Smooth wave-like motion with some randomness
+          x += xSpeed * direction;
+          angle += angleSpeed;
+
+          // Add some randomness to the vertical movement
+          const randomFactor = Math.sin(elapsedTime * 0.01) * 20;
+          y = window.innerHeight / 2 + Math.sin(angle) * 100 + randomFactor;
+
+          // Ensure the pidgey stays within the screen
+          if (elapsedTime < 5000) {
+            if (x <= 0 || x >= window.innerWidth - 100) {
+              direction *= -1; // Change direction
+              pidgey.style.transform = `scaleX(${direction})`;
+
+              x = Math.max(0, Math.min(x, window.innerWidth - 100));
+              y = Math.max(0, Math.min(y, window.innerHeight - 100));
+            }
+          }
+
+          // Start exiting after 5 seconds
+          if (elapsedTime >= 5000 && !exiting) {
+            exiting = true;
+            direction = randomDirection();
+            pidgey.style.transform = `scaleX(${direction})`;
+            xSpeed = 5; // Increase speed for exit
+          }
+
+          setXY(x, y);
+
+          if (x > 0 - width && x < window.innerWidth + width) {
+            requestAnimationFrame(smoothFlight);
+          } else {
+            pidgey.style.display = "none";
+          }
+        }
+
+        smoothFlight();
+      }
+    </script>
+  </body>
+</html>
