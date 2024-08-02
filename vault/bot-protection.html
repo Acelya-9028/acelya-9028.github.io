@@ -11,31 +11,21 @@
       type="image/svg+xml"
     />
     <style>
-      @font-face {
-        font-family: "HarryP";
-        src: url("HarryP.woff2") format("woff2");
-        font-weight: normal;
-        font-style: normal;
-      }
       body,
       html {
         height: 100%;
         margin: 0;
-        font-family: "HarryP", Arial, sans-serif;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         background-color: white;
-        text-align: center;
       }
-      blockquote {
-        font-size: 24px;
+      .blockquote {
         max-width: 100%;
+        height: auto;
         line-height: 1.6;
-        margin-bottom: 20px;
-        margin: 0 25px;
-        word-wrap: break-word;
+        margin: 25px;
       }
       input {
         padding: 10px;
@@ -45,12 +35,8 @@
         border: none;
         outline: none;
         background: transparent;
-        /* font-family: "HarryP", Arial, sans-serif; */
         text-align: center;
         cursor: default;
-      }
-      span {
-        white-space: nowrap;
       }
       .pidgey {
         position: absolute;
@@ -62,11 +48,14 @@
     </style>
   </head>
   <body>
-    <blockquote>
-      <span>Si vous devez demander,</span> <span>jamais vous ne saurez.</span
-      ><br />
-      <span>Si vous savez,</span> <span>il suffit de demander</span>.
-    </blockquote>
+    <div class="blockquote">
+      <img
+        src="mysterious_drawing.svg"
+        alt="Un dessin mystérieux"
+        width="100%"
+        viewBox="0 0 100 100"
+      />
+    </div>
     <input type="text" id="secret" />
     <div id="pidgeyImage" class="pidgey">
       <img src="pidgey.gif" alt="Pidgey GIF" width="100" height="100" />

@@ -99,7 +99,7 @@
         <label class="strong" for="vaultParts">Sélectionner une pièce :</label>
         <select id="vaultParts">
           <option value=""></option>
-          <option value="">5 centimes</option>
+          <option value="">10 centimes</option>
           <option value="">30 centimes</option>
           <option value="">1 euro</option>
           <option value="">5 euros</option>
@@ -119,7 +119,9 @@
         <input type="text" id="keyInput" />
       </div>
       <div id="imageDisplay">
-        <img id="partImage" src="" alt="Vault part" lazy />
+        <a id="partLink" href="" target="_blank">
+          <img id="partImage" src="" alt="Vault part" lazy />
+        </a>
       </div>
 
       <script>
@@ -128,11 +130,12 @@
           const input = document.getElementById("keyInput");
           const display = document.getElementById("imageDisplay");
           const image = document.getElementById("partImage");
+          const link = document.getElementById("partLink");
 
-          const encryptedKey = "NTc2MjE1"; // 576215
+          const encryptedKey = "MTMyMTE4MjAxMjE3OA"; // 576215
           const encryptedKeyPath = "cGFydHMva2V5X2RyYXdpbmcucG5n";
 
-          const encryptedBox = "NTc2MjE1"; // 576215
+          const encryptedBox = "MTMyMTE4MjAxMjE3OA"; // 576215
           const encryptedBoxPath = "cGFydHMvYm94X3JlbmRlci5wbmc";
 
           function handleSelection() {
@@ -154,7 +157,7 @@
             const selectedValue = select.value;
             const decryptedKey = atob(encryptedKey);
 
-            let decryptedPath, altText;
+            let decryptedPath, altText, newHref;
 
             switch (selectedValue) {
               case "key":
@@ -168,34 +171,30 @@
               default:
                 // Get the label of the selected option
                 const selectedLabel = select.selectedOptions[0].textContent;
-                decryptedPath = `parts/${selectedValue}.png`;
+                decryptedPath = `../ressources/top_secret.svg`;
                 altText = `Modèle 3D de la pièce : ${selectedLabel}`;
+                newHref = `../ressources/top_secret.html`;
                 break;
             }
 
             if (input.value === decryptedKey) {
               image.src = decryptedPath;
               image.alt = altText;
+              console.log(newHref);
+              link.href = newHref || decryptedPath;
             } else {
               // Get the label of the selected option
               const selectedLabel = select.selectedOptions[0].textContent;
               image.src = `parts/${selectedValue}.png`;
               image.alt = `Modèle 3D de la pièce : ${selectedLabel}`;
+              link.href = `parts/${selectedValue}.png`;
             }
-          }
-
-          function openImageInNewTab() {
-            const imageUrl = image.src;
-            window.open(imageUrl, "_blank");
           }
 
           select.addEventListener("change", handleSelection);
 
           input.addEventListener("input", function () {
             decrypt(this);
-          });
-          display.addEventListener("click", function () {
-            openImageInNewTab();
           });
 
           handleSelection();
