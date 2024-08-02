@@ -84,6 +84,9 @@
         max-width: 100%;
         /* max-height: 200px; */
       }
+      .disable-links {
+        pointer-events: none;
+      }
     </style>
   </head>
   <body>
@@ -99,10 +102,10 @@
         <label class="strong" for="vaultParts">Sélectionner une pièce :</label>
         <select id="vaultParts">
           <option value=""></option>
-          <option value="">10 centimes</option>
-          <option value="">30 centimes</option>
-          <option value="">1 euro</option>
-          <option value="">5 euros</option>
+          <option value="u_u">10 centimes</option>
+          <option value="u_u">30 centimes</option>
+          <option value="u_u">1 euro</option>
+          <option value="u_u">5 euros</option>
           <option value="box">Caisson blindé</option>
           <option value="hinge">Charnière</option>
           <option value="key">Clé</option>
@@ -171,7 +174,7 @@
               default:
                 // Get the label of the selected option
                 const selectedLabel = select.selectedOptions[0].textContent;
-                decryptedPath = `parts/top_secret.svg`;
+                decryptedPath = `parts/top_secret.png`;
                 altText = `Modèle 3D de la pièce : ${selectedLabel}`;
                 newHref = `top_secret.html`;
                 break;
@@ -180,7 +183,6 @@
             if (input.value === decryptedKey) {
               image.src = decryptedPath;
               image.alt = altText;
-              console.log(newHref);
               link.href = newHref || decryptedPath;
             } else {
               // Get the label of the selected option
