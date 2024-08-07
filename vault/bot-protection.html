@@ -74,7 +74,7 @@
         }
       });
 
-      if (window.location.hash === "#arnaque") {
+      if (window.location.hash === "#pidgey") {
         const pidgey = document.getElementById("pidgeyImage");
         pidgey.style.display = "inline";
 
@@ -131,7 +131,13 @@
 
           setXY(x, y);
 
-          if (x > 0 - width && x < window.innerWidth + width) {
+          // Check if Pidgey is still within the screen
+          if (
+            x > -width &&
+            x < window.innerWidth &&
+            y > -height &&
+            y < window.innerHeight
+          ) {
             requestAnimationFrame(smoothFlight);
           } else {
             pidgey.style.display = "none";

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bot Protection</title>
+    <link
+      href="../ressources/icon.svg"
+      rel="icon"
+      sizes="any"
+      type="image/svg+xml"
+    />
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+      }
+      .blockquote {
+        max-width: 100%;
+        height: auto;
+        line-height: 1.6;
+        margin: 25px;
+      }
+      input {
+        padding: 10px;
+        font-size: 16px;
+        width: 200px;
+        max-width: 80%;
+        border: none;
+        outline: none;
+        background: transparent;
+        text-align: center;
+        cursor: default;
+      }
+      .pidgey {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        transition: transform 0.5s;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blockquote">
+      <img
+        src="mysterious_drawing.svg"
+        alt="Un dessin mystérieux"
+        width="100%"
+        viewBox="0 0 100 100"
+      />
+    </div>
+    <input type="text" id="secret" />
+    <div id="pidgeyImages">
+      <script>
+        function decrypt(value) {
+          return atob(value);
+        }
+
+        const encryptedValue = "VkFVTFQ";
+
+        document
+          .getElementById("secret")
+          .addEventListener("input", function () {
+            if (this.value === decrypt(encryptedValue)) {
+              window.location.href = "../vault";
+            }
+          });
+
+        if (window.location.hash === "#pidgey") {
+          const pidgeyContainer = document.getElementById("pidgeyImages");
+          pidgeyContainer.innerHTML = "";
+
+          const pidgeys = [];
+
+          // Create 5 Pidgey elements
+          for (let i = 0; i < 50; i++) {
+            const pidgey = document.createElement("div");
+            pidgey.className = "pidgey";
+            pidgey.innerHTML =
+              '<img src="pidgey.gif" alt="Pidgey GIF" width="100" height="100" />';
+            pidgeyContainer.appendChild(pidgey);
+
+            // Generate a random speed multiplier between 0.5 and 2
+            const speedMultiplier = 0.5 + Math.random() * 1.5;
+
+            // Create a Pidgey object with random properties
+            pidgeys.push({
+              element: pidgey,
+              x: Math.random() * (window.innerWidth - 100),
+              y: Math.random() * (window.innerHeight - 100),
+              angle: Math.random() * Math.PI * 2,
+              angleSpeed: (0.02 + Math.random() * 0.02) * speedMultiplier,
+              xSpeed: (1 + Math.random() * 2) * speedMultiplier,
+              ySpeed: (1 + Math.random() * 2) * speedMultiplier,
+              direction: Math.random() < 0.5 ? -1 : 1,
+              yDirection: Math.random() < 0.5 ? -1 : 1,
+              exiting: false,
+              startTime: Date.now(),
+              speedMultiplier: speedMultiplier,
+            });
+
+            // Set initial transform and display
+            pidgey.style.transform = `scaleX(${pidgeys[i].direction})`;
+            pidgey.style.display = "block";
+          }
+
+          function smoothFlight() {
+            const currentTime = Date.now();
+
+            pidgeys.forEach((pidgey, index) => {
+              const elapsedTime = currentTime - pidgey.startTime;
+
+              // Update Pidgey position
+              pidgey.x += pidgey.xSpeed * pidgey.direction;
+              pidgey.y += pidgey.ySpeed * pidgey.yDirection;
+
+              if (elapsedTime < 5000) {
+                // Bounce off the edges of the screen
+                if (pidgey.x <= 0 || pidgey.x >= window.innerWidth - 100) {
+                  pidgey.direction *= -1;
+                  pidgey.element.style.transform = `scaleX(${pidgey.direction})`;
+                  pidgey.x = Math.max(
+                    0,
+                    Math.min(pidgey.x, window.innerWidth - 100)
+                  );
+                }
+                if (pidgey.y <= 0 || pidgey.y >= window.innerHeight - 100) {
+                  pidgey.yDirection *= -1;
+                  pidgey.y = Math.max(
+                    0,
+                    Math.min(pidgey.y, window.innerHeight - 100)
+                  );
+                }
+              }
+
+              // After 5 seconds, start exiting
+              if (elapsedTime >= 5000 && !pidgey.exiting) {
+                pidgey.exiting = true;
+                pidgey.direction = Math.random() < 0.5 ? -1 : 1;
+                pidgey.yDirection = Math.random() < 0.5 ? -1 : 1;
+                pidgey.element.style.transform = `scaleX(${pidgey.direction})`;
+                pidgey.xSpeed = 10 * pidgey.speedMultiplier;
+                pidgey.ySpeed = 10 * pidgey.speedMultiplier;
+              }
+
+              // Update Pidgey element position
+              pidgey.element.style.left = pidgey.x + "px";
+              pidgey.element.style.top = pidgey.y + "px";
+
+              // Remove Pidgey if it's off-screen
+              if (
+                pidgey.x <= -100 ||
+                pidgey.x >= window.innerWidth ||
+                pidgey.y <= -100 ||
+                pidgey.y >= window.innerHeight
+              ) {
+                pidgey.element.style.display = "none";
+                pidgeys.splice(index, 1);
+              }
+            });
+
+            // Continue animation if there are still Pidgeys on screen
+            if (pidgeys.length > 0) {
+              requestAnimationFrame(smoothFlight);
+            }
+          }
+
+          // Start the animation
+          smoothFlight();
+        }
+      </script>
+    </div>
+  </body>
+</html>
